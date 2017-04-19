@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-    compile project(":mllib")
+    compile project("mllib")
 
     compile files("lib/spark-1.6.3-yarn-shuffle.jar")
     compile files("lib/spark-assembly-1.6.3-hadoop2.6.0.jar")
