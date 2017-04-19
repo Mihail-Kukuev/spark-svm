@@ -1,0 +1,19 @@
+### Intellij ###
+.idea/
+.gradle/
+*.iml
+
+# Directories:
+distr/*
+build/*
+liblinear/build
+mllib/build/
+out/*
+
+### Java ###
+*.class
+
+# Package Files #
+*.war
+*.ear
+*.jar

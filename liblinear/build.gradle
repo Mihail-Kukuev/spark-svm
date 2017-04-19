@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile project(":mllib")
+
+    compile files("lib/spark-1.6.3-yarn-shuffle.jar")
+    compile files("lib/spark-assembly-1.6.3-hadoop2.6.0.jar")
+    compile files("lib/spark-examples-1.6.3-hadoop2.6.0.jar")
+    compile files("lib/spark-liblinear-1.96.jar")
+}
+
+tasks.withType(Jar) {
+    destinationDir = file("build/")
+    archiveName = "svm-${project.name}.jar"
+}
