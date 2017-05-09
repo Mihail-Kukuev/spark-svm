@@ -2,6 +2,7 @@ package mllib.svm;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import org.apache.spark.api.java.JavaRDD;
@@ -13,7 +14,7 @@ import scala.Tuple2;
 
 public class SVMUtils {
 
-    public static void evaluateBinary(JavaRDD<Tuple2<Object, Object>> predictedData, String outputFilename) {
+    public static void evaluateBinary(JavaRDD<Tuple2<Object, Object>> predictedData, PrintStream ps) {
         predictedData.cache();
 
         double truePredictions = predictedData.filter(tuple -> tuple._1$mcD$sp() == tuple._2$mcD$sp()).count();
@@ -27,10 +28,10 @@ public class SVMUtils {
             + "\nF-measure: " + metrics.fMeasureByThreshold().first();
 
         System.out.println(output);
-        printToFile(output, outputFilename);
+        ps.println(output);
     }
 
-    public static void evaluateMulticlass(JavaRDD<Tuple2<Object, Object>> predictedData, String outputFilename) {
+    public static void evaluateMulticlass(JavaRDD<Tuple2<Object, Object>> predictedData, PrintStream ps) {
         predictedData.cache();
         MulticlassMetrics metrics = new MulticlassMetrics(predictedData.rdd());
 
@@ -40,7 +41,7 @@ public class SVMUtils {
             + "\nTrue Positive Rate: " + metrics.weightedFalsePositiveRate();
 
         System.out.println(output);
-        printToFile(output, outputFilename);
+        ps.println(output);
     }
 
     private static void printToFile(String s, String filename) {

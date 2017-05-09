@@ -2,6 +2,10 @@ package mllib.svm;
 
 import org.apache.spark.api.java.JavaSparkContext;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 
 public abstract class AbstractSVMClassifier {
 
@@ -17,15 +21,16 @@ public abstract class AbstractSVMClassifier {
     protected String evaluationPath;
     protected CustomTimer timer = new CustomTimer();
 
-    public AbstractSVMClassifier() {
-    }
-
-    public AbstractSVMClassifier(JavaSparkContext sc) {
-        this.sc = sc;
-    }
-
-
     public abstract void classify();
+
+    protected PrintStream getPrintStream() {
+        try (PrintStream ps = new PrintStream(new FileOutputStream(evaluationPath))){
+            return ps;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("File for timer's output wasn't found");
+        }
+    }
 
     public String getTrainPath() {
         return trainPath;
