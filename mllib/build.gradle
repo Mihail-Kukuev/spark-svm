@@ -5,11 +5,13 @@ repositories {
 }
 
 dependencies {
-    compile files("lib/scala-library.jar")
-    compile files("lib/spark-catalyst_2.11-2.1.0.jar")
-    compile files("lib/spark-core_2.11-2.1.0.jar")
-    compile files("lib/spark-mllib_2.11-2.1.0.jar")
-    compile files("lib/spark-sql_2.11-2.1.0.jar")
+    compile files("lib/scala-library-2.11.8.jar")
+    compile files("lib/spark-catalyst_2.11-2.1.1.jar")
+    compile files("lib/spark-core_2.11-2.1.1.jar")
+    compile files("lib/spark-mllib_2.11-2.1.1.jar")
+    compile files("lib/spark-sql_2.11-2.1.1.jar")
+
+    compile files("lib/spark-liblinear-1.96.jar")
 }
 
 tasks.withType(Jar) {

@@ -10,7 +10,7 @@ import java.io.PrintStream;
 public abstract class AbstractSVMClassifier {
 
     protected static final String LOADING_TRAINING_TIME = "Loading training file time";
-    protected static final String LOADING_TEST_TIME = "Loading training file time";
+    protected static final String LOADING_TEST_TIME = "Loading test file time";
     protected static final String TRAINING_TIME = "Training time";
     protected static final String PREDICTION_TIME = "Prediction time";
     protected static final String EVALUATION_TIME = "Evaluation time";
@@ -24,8 +24,8 @@ public abstract class AbstractSVMClassifier {
     public abstract void classify();
 
     protected PrintStream getPrintStream() {
-        try (PrintStream ps = new PrintStream(new FileOutputStream(evaluationPath))){
-            return ps;
+        try {
+            return new PrintStream(new FileOutputStream(evaluationPath));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw new RuntimeException("File for timer's output wasn't found");

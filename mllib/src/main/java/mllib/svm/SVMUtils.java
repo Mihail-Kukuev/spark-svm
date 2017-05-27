@@ -38,7 +38,7 @@ public class SVMUtils {
         String output = "Precision: " + metrics.weightedPrecision()
             + "\nRecall: " + metrics.weightedRecall()
             + "\nF-measure: " + metrics.weightedFMeasure()
-            + "\nTrue Positive Rate: " + metrics.weightedFalsePositiveRate();
+            + "\nTrue Positive Rate: " + metrics.weightedTruePositiveRate();
 
         System.out.println(output);
         ps.println(output);

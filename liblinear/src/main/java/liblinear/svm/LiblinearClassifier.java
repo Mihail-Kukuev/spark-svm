@@ -11,8 +11,6 @@ import tw.edu.ntu.csie.liblinear.LiblinearModel;
 import tw.edu.ntu.csie.liblinear.SparkLiblinear;
 import tw.edu.ntu.csie.liblinear.Utils;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 public class LiblinearClassifier extends AbstractSVMClassifier {
@@ -27,22 +25,25 @@ public class LiblinearClassifier extends AbstractSVMClassifier {
     @Override
     public void classify() {
 	    PrintStream ps = getPrintStream();
+		
         timer.startCount();
         RDD<DataPoint> trainingData = Utils.loadLibSVMData(sc.sc(), trainPath);
         trainingData.cache();
-        //timer.printInterval(LOADING_TRAIN_TIME, ps);
+        timer.printInterval(LOADING_TRAINING_TIME, ps);
 
-        LiblinearModel model = SparkLiblinear.train(trainingData);
+        LiblinearModel model = SparkLiblinear.train(trainingData, "-s 0");
         //model.clearThreshold();
         timer.printInterval(TRAINING_TIME, ps);
 
         JavaRDD<DataPoint> testData = Utils.loadLibSVMData(sc.sc(), testPath).toJavaRDD();
-        //timer.printInterval(LOADING_TEST_TIME);
+        timer.printInterval(LOADING_TEST_TIME);
         JavaRDD<Tuple2<Object, Object>> predictedData = testData.map(point -> new Tuple2<>(model.predict(point), point.y()));
         timer.printInterval(PREDICTION_TIME, ps);
 
         evaluate(predictedData, ps);
         timer.printInterval(EVALUATION_TIME, ps);
+		
+		ps.close();
     }
 
     protected void evaluate(JavaRDD<Tuple2<Object, Object>> predictedData, PrintStream ps) {}
